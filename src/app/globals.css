@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+.active {
+  color: #1d53c5;
+  background-color: #fff;
+}
+
+.nav-link {
+  width: 290px;
+  padding: 10px 40px;
+  border-radius: 5px;
+}
+
+.panel::-webkit-scrollbar {
+  background-color: #1d53c5;
+  width: 8px;
+}
+
+.panel::-webkit-scrollbar-thumb {
+  background-color: #5388f9;
+  border-radius: 5px;
+}
+
+th {
+  text-align: start;
+  color: #1d53c5;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+td {
+  padding-left: 37px;
+  width: 100%;
+}
+
+.space {
+  padding-top: 32px;
+}
+
+.table {
+  margin-top: -69px;
+}
+
+input,
+textarea {
+  outline: none;
+}

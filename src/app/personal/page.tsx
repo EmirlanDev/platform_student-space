@@ -1,0 +1,65 @@
+"use client";
+import NavLink from "@/components/NavLink";
+import { ReactNode } from "react";
+import Link from "next/link";
+import { useGetProfileQuery } from "@/redux/api/user/user";
+
+interface PersonalProps {
+  children: ReactNode;
+}
+
+export default function Personal({ children }: PersonalProps) {
+  const { data, isLoading, error } = useGetProfileQuery();
+
+  return (
+    <div className="flex">
+      <div className="panel fixed overflow-y-scroll inset-[0] max-w-[370px] w-[100%] bg-[#1D53C5] py-[18px] px-[40px]">
+        <Link
+          href="/personal/profile"
+          className="flex items-center gap-[25px] px-[15px] py-[32px] border-b-[1px] border-white"
+        >
+          {isLoading ? (
+            <div className="w-[84px] h-[84px] rounded-full bg-[#4b72c4]"></div>
+          ) : (
+            <img
+              className="w-[84px] h-[84px] rounded-full"
+              src={data?.photoURL}
+              alt="User Profile"
+            />
+          )}
+
+          <div className="w-[50%] flex flex-col gap-[5px]">
+            {isLoading ? (
+              <div className="w-[100%] h-[25px] rounded-[5px] bg-[#4b72c4]"></div>
+            ) : (
+              <h2 className="text-[20px] font-[500] text-white">
+                {data?.name}
+              </h2>
+            )}
+            {isLoading ? (
+              <div className="w-[80%] h-[22px] rounded-[5px] bg-[#4b72c4]"></div>
+            ) : (
+              <h3 className="text-[#fff] font-[400]">
+                {data?.university === "Пусто"
+                  ? "Университет"
+                  : data?.university}
+              </h3>
+            )}
+          </div>
+        </Link>
+        <nav>
+          <ul className="flex flex-col gap-[40px] text-[20px] font-[500] py-[57px] text-white">
+            <NavLink href="/personal/news">Новости</NavLink>
+            <NavLink href="/personal/questions">Вопросы</NavLink>
+            <NavLink href="/personal/">Нетворкинг</NavLink>
+            <NavLink href="/personal/">Учебные комнаты</NavLink>
+            <NavLink href="/personal/">Мероприятия</NavLink>
+            <NavLink href="/personal/">Чаты</NavLink>
+            <NavLink href="/personal/ ">Работа</NavLink>
+          </ul>
+        </nav>
+      </div>
+      <div className="py-[32px] px-[40px] ml-[370px]">{children}</div>
+    </div>
+  );
+}
