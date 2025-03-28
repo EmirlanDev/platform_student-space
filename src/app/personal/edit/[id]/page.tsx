@@ -98,7 +98,7 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
 
   return (
     <Personal>
-      <div>
+      <div className="py-[32px] px-[40px] ml-[370px]">
         <h1 className="text-[24px] font-[500] mb-[56px]">Профиль</h1>
         <div className="max-w-[930px] min-w-[810px]">
           {isUserLoading ? (

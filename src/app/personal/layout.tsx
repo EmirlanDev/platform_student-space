@@ -59,7 +59,7 @@ export default function Personal({ children }: PersonalProps) {
           </ul>
         </nav>
       </div>
-      <div className="py-[32px] px-[40px] ml-[370px]">{children}</div>
+      <div>{children}</div>
     </div>
   );
 }
