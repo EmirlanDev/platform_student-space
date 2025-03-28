@@ -1,5 +1,5 @@
 "use client";
-import Personal from "./../../page";
+import Personal from "../../layout";
 import { use, useEffect, useState } from "react";
 import { useGetProfileQuery, useGetUserByIdQuery } from "@/redux/api/user/user";
 import { useEditUserMutation } from "@/redux/api/auth/auth";

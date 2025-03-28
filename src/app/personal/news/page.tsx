@@ -1,4 +1,4 @@
-import Personal from "./../page";
+import Personal from "../layout";
 
 export default function News() {
   return <Personal>News</Personal>;

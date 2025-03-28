@@ -1,6 +1,6 @@
 "use client";
 import { useGetProfileQuery } from "@/redux/api/user/user";
-import Personal from "./../page";
+import Personal from "../layout";
 import Link from "next/link";
 
 export default function Profile() {
