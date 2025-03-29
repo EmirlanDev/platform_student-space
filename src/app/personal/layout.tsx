@@ -3,6 +3,8 @@ import NavLink from "@/components/NavLink";
 import { ReactNode } from "react";
 import Link from "next/link";
 import { useGetProfileQuery } from "@/redux/api/user/user";
+import { useLogoutMutation } from "@/redux/api/auth/auth";
+import { useRouter } from "next/navigation";
 
 interface PersonalProps {
   children: ReactNode;
@@ -10,10 +12,22 @@ interface PersonalProps {
 
 export default function Personal({ children }: PersonalProps) {
   const { data, isLoading, error } = useGetProfileQuery();
+  const router = useRouter();
+  const [logout, { isLoading: isLogoutLoading, isError, isSuccess }] =
+    useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+      router.push("/");
+    } catch (error) {
+      console.error("Ошибка выхода:", error);
+    }
+  };
 
   return (
     <div className="flex">
-      <div className="panel fixed overflow-y-scroll inset-[0] max-w-[370px] w-[100%] bg-[#1D53C5] py-[18px] px-[40px]">
+      <div className="panel fixed overflow-y-scroll inset-[0] max-w-[370px] w-[100%] bg-[#1D53C5] py-[18px] px-[40px] z-[100]">
         <Link
           href="/personal/profile"
           className="flex items-center gap-[25px] px-[15px] py-[32px] border-b-[1px] border-white"
@@ -56,6 +70,13 @@ export default function Personal({ children }: PersonalProps) {
             <NavLink href="/personal/">Мероприятия</NavLink>
             <NavLink href="/personal/">Чаты</NavLink>
             <NavLink href="/personal/ ">Работа</NavLink>
+            <button
+              onClick={handleLogout}
+              disabled={isLoading}
+              className="text-start py-[10px] px-[40px]"
+            >
+              {isLoading ? "Выход..." : "Выйти"}
+            </button>
           </ul>
         </nav>
       </div>

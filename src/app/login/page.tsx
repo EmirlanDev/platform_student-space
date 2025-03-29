@@ -4,16 +4,20 @@ import { useFormLogin } from "@/zustand/authState";
 import Image from "next/image";
 import loginImage from "../../assets/login.png";
 import { useRouter } from "next/navigation";
+import { useGetProfileQuery } from "@/redux/api/user/user";
 
 export default function Login() {
   const { form, setField, resetForm } = useFormLogin();
   const [login, { data, isLoading, error }] = useLoginMutation();
   const router = useRouter();
 
+  const { refetch } = useGetProfileQuery();
+
   const handleLogin = async () => {
     try {
-      const response = await login(form).unwrap();
+      await login(form).unwrap();
       resetForm();
+      refetch();
       router.push("/personal/profile");
     } catch (error) {
       console.log(error);

@@ -12,7 +12,7 @@ export default function Profile() {
     <Personal>
       <div className="py-[32px] px-[40px] ml-[370px]">
         <h1 className="text-[24px] font-[500] mb-[56px]">Профиль</h1>
-        <div className="max-w-[930px] min-w-[810px]">
+        <div className="max-w-[930px]">
           {isLoading ? (
             <div className="w-[100%] h-[180px] bg-[#cccccc] rounded-t-[10px]"></div>
           ) : (
@@ -39,7 +39,7 @@ export default function Profile() {
                   </th>
                   <td className="align-bottom">
                     <span className="flex justify-between items-end">
-                      <span className="max-w-[300px] w-[100%]">
+                      <span className="">
                         {isLoading ? (
                           <div className="w-[100%] mb-[4px] h-[25px] rounded-[5px] bg-[#cccccc]"></div>
                         ) : (

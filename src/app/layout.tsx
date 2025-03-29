@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import "./globals.css";
+import "./globals.scss";
 import LayoutClient from "./layout.client";
 
 const montserrat = Montserrat({

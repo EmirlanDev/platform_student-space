@@ -16,7 +16,16 @@ const api = index.injectEndpoints({
         body: userData,
       }),
     }),
-    editUser: build.mutation({
+    logout: build.mutation<AUTH.logoutRes, AUTH.logoutReq>({
+      query: () => ({
+        url: "/auth/logout",
+        method: "POST",
+      }),
+    }),
+    editUser: build.mutation<
+      AUTH.editRes,
+      { id: string; values: AUTH.editReq }
+    >({
       query: ({ id, values }) => ({
         url: `/auth/edit/${id}`,
         method: "PUT",
@@ -27,5 +36,9 @@ const api = index.injectEndpoints({
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useEditUserMutation } =
-  api;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useEditUserMutation,
+  useLogoutMutation,
+} = api;

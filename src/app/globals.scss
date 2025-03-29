@@ -11,6 +11,17 @@
   border-radius: 5px;
 }
 
+.panel {
+  background: #1d53c5;
+  inset: 0;
+  max-width: 370px;
+  overflow-y: scroll;
+  padding: 50px 40px;
+  position: fixed;
+  transition: 0.5s;
+  z-index: 200;
+}
+
 .panel::-webkit-scrollbar {
   background-color: #1d53c5;
   width: 8px;
@@ -45,4 +56,11 @@ td {
 input,
 textarea {
   outline: none;
+}
+
+.container {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
 }
