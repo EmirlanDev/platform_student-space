@@ -6,6 +6,8 @@ import Link from "next/link";
 export default function Profile() {
   const { data, isLoading, error } = useGetProfileQuery();
 
+  console.log(data);
+
   return (
     <Personal>
       <div className="py-[32px] px-[40px] ml-[370px]">

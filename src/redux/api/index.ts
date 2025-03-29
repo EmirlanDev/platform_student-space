@@ -4,11 +4,6 @@ import {
   createApi,
 } from "@reduxjs/toolkit/query/react";
 
-// const getTokenFromCookies = () => {
-//   const match = document.cookie.match(/(^| )token=([^;]+)/);
-//   return match ? match[2] : null;
-// };
-
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://platform-back-qgul.onrender.com/platform",
   credentials: "include",

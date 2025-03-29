@@ -39,6 +39,7 @@ td {
 
 .table {
   margin-top: -69px;
+  transform: translateY(0px);
 }
 
 input,

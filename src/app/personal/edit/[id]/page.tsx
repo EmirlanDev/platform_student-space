@@ -35,7 +35,8 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
 
   const { refetch } = useGetProfileQuery();
 
-  const [uploadImage, { isLoading }] = useUploadImageMutation();
+  const [uploadImage, { isLoading: isUploadLoading }] =
+    useUploadImageMutation();
 
   //? Get RTK query запрос
 
@@ -56,6 +57,8 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
         ...prevData,
         photoURL: response.processedImagePath,
       }));
+
+      console.log(response.processedImagePath);
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -116,7 +119,9 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
                 <tr>
                   <th>
                     {isUserLoading ? (
-                      <div className="min-w-[160px] h-[160px] rounded-full bg-[#cccccc]"></div>
+                      <div className="min-w-[160px] h-[160px] rounded-full bg-[#cccccc] z-[10]"></div>
+                    ) : isUploadLoading ? (
+                      <img className="min-w-[160px] h-[160px] rounded-full bg-[red]"></img>
                     ) : (
                       <label>
                         <img
