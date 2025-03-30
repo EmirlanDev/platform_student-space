@@ -33,7 +33,7 @@ export default function Personal({ children }: PersonalProps) {
           className="flex items-center gap-[25px] px-[15px] py-[32px] border-b-[1px] border-white"
         >
           {isLoading ? (
-            <div className="w-[84px] h-[84px] rounded-full bg-[#4b72c4]"></div>
+            <div className="w-[84px] h-[84px] rounded-full bg-[#4b72c4] animate-pulse"></div>
           ) : (
             <img
               className="w-[84px] h-[84px] rounded-full"
@@ -44,14 +44,14 @@ export default function Personal({ children }: PersonalProps) {
 
           <div className="w-[50%] flex flex-col gap-[5px]">
             {isLoading ? (
-              <div className="w-[100%] h-[25px] rounded-[5px] bg-[#4b72c4]"></div>
+              <div className="w-[100%] h-[25px] rounded-[5px] bg-[#4b72c4] animate-pulse"></div>
             ) : (
               <h2 className="text-[20px] font-[500] text-white">
-                {data?.name}
+                {data?.name + " " + data?.lastName[0]}.
               </h2>
             )}
             {isLoading ? (
-              <div className="w-[80%] h-[22px] rounded-[5px] bg-[#4b72c4]"></div>
+              <div className="w-[80%] h-[22px] rounded-[5px] bg-[#4b72c4] animate-pulse"></div>
             ) : (
               <h3 className="text-[#fff] font-[400]">
                 {data?.university === "Пусто"

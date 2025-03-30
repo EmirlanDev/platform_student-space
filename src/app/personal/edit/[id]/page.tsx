@@ -1,6 +1,6 @@
 "use client";
 import Personal from "../../layout";
-import { use, useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useGetProfileQuery, useGetUserByIdQuery } from "@/redux/api/user/user";
 import { useEditUserMutation } from "@/redux/api/auth/auth";
 import { useRouter } from "next/navigation";
@@ -96,6 +96,15 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
       console.log("no edit");
     }
   };
+
+  // const handleKeyDown = (
+  //   event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   if (event.key === "Enter") {
+  //     event.preventDefault();
+  //     handleEdit();
+  //   }
+  // };
 
   return (
     <Personal>

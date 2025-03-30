@@ -3,12 +3,14 @@ import { useRegisterMutation } from "@/redux/api/auth/auth";
 import { useFormRegister } from "@/zustand/authState";
 import { useRouter } from "next/navigation";
 import { useGetProfileQuery } from "@/redux/api/user/user";
+import { useState } from "react";
 
 export default function Register() {
   const { form, setField, resetForm } = useFormRegister();
   const [register, { data, isLoading, error }] = useRegisterMutation();
   const router = useRouter();
   const { refetch } = useGetProfileQuery();
+  const [eyes, setEyes] = useState<boolean>(false);
 
   const handleRegister = async () => {
     try {
@@ -28,7 +30,7 @@ export default function Register() {
         <label className="flex flex-col max-w-[502px] w-[100%] gap-[10px]">
           Имя
           <input
-            className="max-w-[502px] w-[100%] h-[58px] border-[1px] border-[#00000066] rounded-[6.7px] px-[16px] text-[16.78px]"
+            className="w-full px-4 py-4 bg-white dark:bg-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000] hover:border-gray-400 dark:hover:border-gray-500 shadow-sm"
             type="text"
             placeholder="Введите свое имя"
             onChange={(e) => setField("name", e.target.value)}
@@ -38,7 +40,7 @@ export default function Register() {
         <label className="flex flex-col max-w-[502px] w-[100%] gap-[10px]">
           Фамилие
           <input
-            className="max-w-[502px] w-[100%] h-[58px] border-[1px] border-[#00000066] rounded-[6.7px] px-[16px] text-[16.78px]"
+            className="w-full px-4 py-4 bg-white dark:bg-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000] hover:border-gray-400 dark:hover:border-gray-500 shadow-sm"
             type="text"
             placeholder="Введите свое фамилие"
             onChange={(e) => setField("lastName", e.target.value)}
@@ -47,23 +49,95 @@ export default function Register() {
         </label>
         <label className="flex flex-col max-w-[502px] w-[100%] gap-[10px]">
           Почта
-          <input
-            className="max-w-[502px] w-[100%] h-[58px] border-[1px] border-[#00000066] rounded-[6.7px] px-[16px] text-[16.78px]"
-            type="text"
-            placeholder="Введите свою почту"
-            onChange={(e) => setField("email", e.target.value)}
-            value={form.email}
-          />
+          <div className="relative">
+            <input
+              className="w-full px-4 py-4 bg-white dark:bg-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000] hover:border-gray-400 dark:hover:border-gray-500 shadow-sm"
+              type="email"
+              placeholder="Введите свою почту"
+              onChange={(e) => setField("email", e.target.value)}
+              value={form.email}
+            />
+            <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
+              <svg
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                fill="none"
+                className="h-6 w-6 text-gray-400"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                  strokeWidth="2"
+                  strokeLinejoin="round"
+                  strokeLinecap="round"
+                ></path>
+              </svg>
+            </span>
+          </div>
         </label>
         <label className="flex flex-col max-w-[502px] w-[100%] gap-[10px]">
           Пароль*
-          <input
-            className="max-w-[502px] w-[100%] h-[58px] border-[1px] border-[#00000066] rounded-[6.7px] px-[16px] text-[16.78px]"
-            type="text"
-            placeholder="Введите свой пароль"
-            onChange={(e) => setField("password", e.target.value)}
-            value={form.password}
-          />
+          <div className="relative">
+            <input
+              className="w-full px-4 py-4 bg-white dark:bg-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000] hover:border-gray-400 dark:hover:border-gray-500 shadow-sm"
+              type={eyes ? "text" : "password"}
+              placeholder="Введите свой пароль"
+              onChange={(e) => setField("password", e.target.value)}
+              value={form.password}
+            />
+            {eyes ? (
+              <span
+                onClick={() => setEyes(false)}
+                className="absolute inset-y-0 end-0 grid place-content-center px-4"
+              >
+                <svg
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="h-6 w-6 text-gray-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                  ></path>
+                  <path
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                  ></path>
+                </svg>
+              </span>
+            ) : (
+              <span
+                onClick={() => setEyes(true)}
+                className="absolute inset-y-0 end-0 grid place-content-center px-4"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="h-6 w-6 text-gray-400"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.956 9.956 0 012.397-3.882m3.107-2.21A9.955 9.955 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.966 9.966 0 01-4.293 5.147M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 3l18 18"
+                  />
+                </svg>
+              </span>
+            )}
+          </div>
         </label>
         <label className="max-w-[502px] w-[100%] flex items-center gap-[12px]">
           <span className="bg-[#348BCA] w-[21px] h-[21px] rounded-[5px] flex items-center justify-center border-[1px] border-[#348BCA]">
@@ -84,7 +158,8 @@ export default function Register() {
         </label>
         <button
           onClick={handleRegister}
-          className="bg-[#1D53C5] text-white text-[23px] max-w-[502px] w-[100%] py-[16px] rounded-[12px]"
+          type="submit"
+          className="bg-[#1D53C5] hover:bg-[#2d6aea] transition-[.3s] text-white text-[23px] max-w-[502px] w-[100%] py-[16px] rounded-[12px]"
         >
           {isLoading ? (
             <span className="flex justify-center items-center gap-[10px]">
@@ -131,7 +206,14 @@ export default function Register() {
           </span>
         </div>
         <div className="flex max-w-[502px] w-[100%] justify-between gap-[25px]">
-          <button className="flex border-[1px] border-[#1D53C5] rounded-[6px] h-[51px] items-center w-[50%] justify-center gap-[10px] text-[20px] font-[500]">
+          <button
+            onClick={() =>
+              router.push(
+                "https://platform-back-qgul.onrender.com/platform/auth/google"
+              )
+            }
+            className="flex border-[1px] border-[#1D53C5] rounded-[6px] h-[51px] items-center w-[50%] justify-center gap-[10px] text-[20px] font-[500]"
+          >
             <svg
               width="21"
               height="21"
