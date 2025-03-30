@@ -97,8 +97,6 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
     }
   };
 
-  console.log(values);
-
   return (
     <Personal>
       <div className="py-[32px] px-[40px] ml-[370px]">

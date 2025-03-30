@@ -28,4 +28,6 @@ namespace USER {
     email: string;
   };
   type getUserByIdReq = string;
+  type checkUserRes = { authenticated: boolean };
+  type checkUserReq = void;
 }

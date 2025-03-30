@@ -98,7 +98,14 @@ export default function Login() {
           </span>
         </div>
         <div className="flex max-w-[502px] w-[100%] justify-between gap-[25px]">
-          <button className="flex border-[1px] border-[#1D53C5] rounded-[6px] h-[51px] items-center w-[50%] justify-center gap-[10px] text-[20px] font-[500]">
+          <button
+            onClick={() =>
+              router.push(
+                "https://platform-back-qgul.onrender.com/platform/auth/google"
+              )
+            }
+            className="flex border-[1px] border-[#1D53C5] rounded-[6px] h-[51px] items-center w-[50%] justify-center gap-[10px] text-[20px] font-[500]"
+          >
             <svg
               width="21"
               height="21"
