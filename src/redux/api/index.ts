@@ -5,7 +5,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "/api/platform",
+  baseUrl: "/api",
   credentials: "include",
 });
 
