@@ -5,7 +5,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://platform-back-qgul.onrender.com/platform",
+  baseUrl: "/api",
   credentials: "include",
 });
 
