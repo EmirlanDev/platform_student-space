@@ -4,21 +4,21 @@ const api = index.injectEndpoints({
   endpoints: (build) => ({
     register: build.mutation<AUTH.registerRes, AUTH.registerReq>({
       query: (userData) => ({
-        url: "/platform/auth/register",
+        url: "/auth/register",
         method: "POST",
         body: userData,
       }),
     }),
     login: build.mutation<AUTH.registerRes, AUTH.loginReq>({
       query: (userData) => ({
-        url: "/platform/auth/login",
+        url: "/auth/login",
         method: "POST",
         body: userData,
       }),
     }),
     logout: build.mutation<AUTH.logoutRes, AUTH.logoutReq>({
       query: () => ({
-        url: "/platform/auth/logout",
+        url: "/auth/logout",
         method: "POST",
       }),
     }),
@@ -27,7 +27,7 @@ const api = index.injectEndpoints({
       { id: string; values: AUTH.editReq }
     >({
       query: ({ id, values }) => ({
-        url: `/platform/auth/edit/${id}`,
+        url: `/auth/edit/${id}`,
         method: "PUT",
         body: values,
       }),
