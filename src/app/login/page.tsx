@@ -185,7 +185,7 @@ export default function Login() {
           <button
             onClick={() =>
               router.push(
-                "https://platform-back-qgul.onrender.com/platform/auth/google"
+                "https://platform-student-space.vercel.app/api/auth/google"
               )
             }
             className="flex border-[1px] border-[#1D53C5] rounded-[6px] h-[51px] items-center w-[50%] justify-center gap-[10px] text-[20px] font-[500]"
