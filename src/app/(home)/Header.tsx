@@ -17,7 +17,7 @@ export default function Header() {
             </Link>
           </nav>
           <Link
-            href="/verification"
+            href="/login"
             className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800"
           >
             Войти
