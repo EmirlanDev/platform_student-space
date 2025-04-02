@@ -47,7 +47,9 @@ export default function Personal({ children }: PersonalProps) {
               <div className="w-[100%] h-[25px] rounded-[5px] bg-[#4b72c4] animate-pulse"></div>
             ) : (
               <h2 className="text-[20px] font-[500] text-white">
-                {data?.name + " " + data?.lastName[0]}.
+                {data?.name +
+                  " " +
+                  (data?.lastName ? data?.lastName[0] + "." : "")}
               </h2>
             )}
             {isLoading ? (

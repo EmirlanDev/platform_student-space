@@ -3,17 +3,16 @@ import { useCheckUserQuery } from "@/redux/api/user/user";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function Callback() {
+export default function Мerification() {
   const { data, isLoading, isError } = useCheckUserQuery();
   const router = useRouter();
 
   useEffect(() => {
     if (data?.authenticated) {
-      router.push("/personal/profile"); // если токен есть — на главную
+      router.push("/personal/profile");
     } else if (data && !data.authenticated) {
-      router.push("/login"); // если токена нет — на логин
+      router.push("/login");
     } else if (isError) {
-      console.error("Ошибка при проверке авторизации:", isError);
       router.push("/login");
     }
   }, [data, isError, router]);

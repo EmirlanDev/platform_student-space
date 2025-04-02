@@ -59,6 +59,8 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
       }));
 
       console.log(response.processedImagePath);
+
+      console.log(response.processedImagePath);
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -93,18 +95,9 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
       refetch();
       router.push("/personal/profile");
     } catch (error) {
-      console.log("no edit");
+      console.log("dont edit");
     }
   };
-
-  // const handleKeyDown = (
-  //   event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   if (event.key === "Enter") {
-  //     event.preventDefault();
-  //     handleEdit();
-  //   }
-  // };
 
   return (
     <Personal>
@@ -128,7 +121,38 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
                     {isUserLoading ? (
                       <div className="min-w-[160px] h-[160px] rounded-full bg-[#cccccc] z-[10]"></div>
                     ) : isUploadLoading ? (
-                      <img className="min-w-[160px] h-[160px] rounded-full bg-[red]"></img>
+                      <div className="min-w-[160px] h-[160px] rounded-full bg-[red] flex items-center justify-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 100 100"
+                          preserveAspectRatio="xMidYMid"
+                          width="100"
+                          height="100"
+                          xmlnsXlink="http://www.w3.org/1999/xlink"
+                        >
+                          <g>
+                            <circle
+                              strokeDasharray="164.93361431346415 56.97787143782138"
+                              r="35"
+                              strokeWidth="5"
+                              stroke="#5bc4e1"
+                              fill="none"
+                              cy="50"
+                              cx="50"
+                            >
+                              <animateTransform
+                                keyTimes="0;1"
+                                values="0 50 50;360 50 50"
+                                dur="1s"
+                                repeatCount="indefinite"
+                                type="rotate"
+                                attributeName="transform"
+                              ></animateTransform>
+                            </circle>
+                            <g></g>
+                          </g>
+                        </svg>
+                      </div>
                     ) : (
                       <label>
                         <img

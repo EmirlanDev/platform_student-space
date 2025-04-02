@@ -3,7 +3,7 @@ import { useRegisterMutation } from "@/redux/api/auth/auth";
 import { useFormRegister } from "@/zustand/authState";
 import { useRouter } from "next/navigation";
 import { useGetProfileQuery } from "@/redux/api/user/user";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Register() {
   const { form, setField, resetForm } = useFormRegister();
@@ -12,6 +12,7 @@ export default function Register() {
   const { refetch } = useGetProfileQuery();
   const [eyes, setEyes] = useState<boolean>(false);
   const [validError, setValidError] = useState<any>({});
+  const [agreement, setAgreement] = useState<boolean>(false);
 
   const validateForm = () => {
     const errors: any = {};
@@ -27,10 +28,29 @@ export default function Register() {
     } else if (form.password.length < 6) {
       errors.password = "Пароль должен быть не менее 6 символов";
     }
+    if (!agreement) {
+      errors.agreement = "Вы должны согласиться с условиями";
+    }
 
     setValidError(errors);
     return Object.keys(errors).length === 0;
   };
+
+  useEffect(() => {
+    delete validError.name;
+  }, [form.name]);
+
+  useEffect(() => {
+    delete validError.email;
+  }, [form.email]);
+
+  useEffect(() => {
+    delete validError.password;
+  }, [form.password]);
+
+  useEffect(() => {
+    delete validError.agreement;
+  }, [agreement]);
 
   const handleRegister = async () => {
     if (!validateForm()) return;
@@ -49,16 +69,20 @@ export default function Register() {
 
   return (
     <div className="container">
-      <div className="flex items-center justify-center flex-col gap-[23px] py-[70px]">
-        <h1 className="text-[40px] font-[500]">Регистрация</h1>
-        <label className="flex flex-col max-w-[502px] w-[100%]">
-          Имя
+      <div className="flex items-center justify-center flex-col gap-[23px] max-[600px]:gap-[14px] py-[70px] max-[600px]:py-[40px]">
+        <h1 className="text-[40px] font-[500] max-[600px]:text-[35px]">
+          Регистрация
+        </h1>
+        <label className=" max-w-[502px] w-[100%]">
+          <span className={`${validError.name ? "text-red-500" : ""}`}>
+            Имя
+          </span>
           <input
             className={`${
               validError.name
                 ? "border-red-500 border-[2px]"
                 : "border-gray-300 dark:border-gray-600"
-            } w-full mt-[10px] px-4 py-4 bg-white dark:bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000]  shadow-sm`}
+            } w-full mt-[10px] max-[600px]:mt-[4px] px-4 py-4 max-[600px]:py-3 bg-white dark:bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000]  shadow-sm`}
             type="text"
             placeholder="Введите свое имя"
             onChange={(e) => {
@@ -72,10 +96,10 @@ export default function Register() {
             </span>
           )}
         </label>
-        <label className="flex flex-col max-w-[502px] w-[100%] gap-[10px]">
+        <label className="max-w-[502px] w-[100%]">
           Фамилие
           <input
-            className="w-full px-4 py-4 bg-white dark:bg-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000] hover:border-gray-400 dark:hover:border-gray-500 shadow-sm"
+            className="w-full mt-[10px] max-[600px]:mt-[4px] px-4 py-4 max-[600px]:py-3 bg-white dark:bg-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000] hover:border-gray-400 dark:hover:border-gray-500 shadow-sm"
             type="text"
             placeholder="Введите свое фамилие"
             onChange={(e) => setField("lastName", e.target.value)}
@@ -83,14 +107,16 @@ export default function Register() {
           />
         </label>
         <label className="flex flex-col max-w-[502px] w-[100%]">
-          Почта
-          <div className="relative mt-[10px]">
+          <span className={`${validError.email ? "text-red-500" : ""}`}>
+            Почта
+          </span>
+          <div className="relative mt-[10px] max-[600px]:mt-[4px]">
             <input
               className={`${
                 validError.email
                   ? "border-red-500 border-[2px]"
                   : "border-gray-300 dark:border-gray-600"
-              } w-full px-4 py-4 bg-white dark:bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000] shadow-sm`}
+              } w-full px-4 py-4 max-[600px]:py-3 bg-white dark:bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000] shadow-sm`}
               type="email"
               placeholder="Введите свою почту"
               onChange={(e) => setField("email", e.target.value)}
@@ -122,14 +148,16 @@ export default function Register() {
           )}
         </label>
         <label className="flex flex-col max-w-[502px] w-[100%]">
-          Пароль*
-          <div className="relative mt-[10px]">
+          <span className={`${validError.password ? "text-red-500" : ""}`}>
+            Пароль*
+          </span>
+          <div className="relative mt-[10px] max-[600px]:mt-[4px]">
             <input
               className={`${
                 validError.password
                   ? "border-red-500 border-[2px]"
                   : "border-gray-300 dark:border-gray-600"
-              } w-full px-4 py-4 bg-white dark:bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000] shadow-sm`}
+              } w-full px-4 py-4 max-[600px]:py-3 bg-white dark:bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000] shadow-sm`}
               type={eyes ? "text" : "password"}
               placeholder="Введите свой пароль"
               onChange={(e) => setField("password", e.target.value)}
@@ -198,28 +226,38 @@ export default function Register() {
             </span>
           )}
         </label>
-        <label className="max-w-[502px] w-[100%] flex items-center gap-[12px]">
-          <span className="bg-[#348BCA] w-[21px] h-[21px] rounded-[5px] flex items-center justify-center border-[1px] border-[#348BCA]">
-            <svg
-              width="14"
-              height="11"
-              viewBox="0 0 14 11"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+        <label
+          onClick={() => setAgreement(!agreement)}
+          className={`${
+            validError.agreement && !agreement ? "text-red-500" : ""
+          } max-w-[502px] w-[100%]`}
+        >
+          <span className="flex items-center gap-[12px]">
+            <span
+              className={`${agreement ? "bg-[#348BCA]" : ""} ${
+                validError.agreement && !agreement ? "border-red-500" : ""
+              } w-[21px] h-[21px] rounded-[5px] flex items-center justify-center border-[1px] border-[#348BCA]`}
             >
-              <path
-                d="M4.95582 7.40485L2.00059 4.56584L0.185547 6.31749L4.95839 10.9007L13.5786 2.60513L11.7609 0.855957L4.95582 7.40485Z"
-                fill="white"
-              />
-            </svg>
+              <svg
+                width="14"
+                height="11"
+                viewBox="0 0 14 11"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4.95582 7.40485L2.00059 4.56584L0.185547 6.31749L4.95839 10.9007L13.5786 2.60513L11.7609 0.855957L4.95582 7.40485Z"
+                  fill="white"
+                />
+              </svg>
+            </span>
+            Согласен с Условиями
           </span>
-          Согласен с Условиями
         </label>
-        <div>{}</div>
         <button
           onClick={handleRegister}
           type="submit"
-          className="bg-[#1D53C5] hover:bg-[#2d6aea] transition-[.3s] text-white text-[23px] max-w-[502px] w-[100%] py-[16px] rounded-[12px]"
+          className="bg-[#1D53C5] max-[600px]:py-3 hover:bg-[#2d6aea] transition-[.3s] text-white text-[23px] max-[600px]:text-[20px] max-w-[502px] w-[100%] py-[16px] rounded-[12px]"
         >
           {isLoading ? (
             <span className="flex justify-center items-center gap-[10px]">

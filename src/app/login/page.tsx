@@ -4,39 +4,83 @@ import { useFormLogin } from "@/zustand/authState";
 import Image from "next/image";
 import loginImage from "../../assets/login.png";
 import { useRouter } from "next/navigation";
-import { useGetProfileQuery } from "@/redux/api/user/user";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useGetProfileQuery } from "@/redux/api/user/user";
 
 export default function Login() {
   const { form, setField, resetForm } = useFormLogin();
-  const [login, { data, isLoading, error }] = useLoginMutation();
+  const { refetch } = useGetProfileQuery();
+  const [login, { data, isLoading, isError }] = useLoginMutation();
   const router = useRouter();
   const [eyes, setEyes] = useState<boolean>(false);
+  const [validError, setValidError] = useState<any>({});
 
-  const { refetch } = useGetProfileQuery();
+  const validateForm = () => {
+    const errors: any = {};
+
+    if (!form.email) {
+      errors.email = "Почта обязательна";
+    } else if (!/\S+@\S+\.\S+/.test(form.email)) {
+      errors.email = "Введите корректную почту";
+    }
+    if (!form.password) {
+      errors.password = "Пароль обязателен";
+    } else if (form.password.length < 6) {
+      errors.password = "Пароль должен быть не менее 6 символов";
+    }
+
+    setValidError(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  useEffect(() => {
+    delete validError.email;
+    delete validError.notFound;
+  }, [form.email]);
+
+  useEffect(() => {
+    delete validError.password;
+    delete validError.notFound;
+  }, [form.password]);
 
   const handleLogin = async () => {
+    if (!validateForm()) return;
+
     try {
       await login(form).unwrap();
       resetForm();
       refetch();
       router.push("/personal/profile");
-    } catch (error) {
-      console.log(error);
+    } catch (err: any) {
+      const errors: any = {};
+      errors.notFound = err.data.error;
+      setValidError(errors);
     }
   };
 
   return (
     <div className="flex">
-      <Image src={loginImage} alt="bg" />
-      <div className="flex items-center justify-center flex-col gap-[23px] py-[120px] w-[50%]">
-        <h1 className="text-[40px] font-[500]">Добро пожаловать</h1>
-        <label className="flex flex-col max-w-[502px] w-[100%] gap-[10px]">
-          Почта
-          <div className="relative">
+      <Image className="max-[1200px]:hidden" src={loginImage} alt="bg" />
+      <div className="flex items-center justify-center flex-col gap-[23px] max-[600px]:gap-[14px] max-[1200px]:h-[100vh] items-center w-[50%] max-[1200px]:w-[100%] px-[20px]">
+        <h1 className="text-[40px] font-[500] max-[600px]:text-[35px] text-center">
+          Добро пожаловать
+        </h1>
+        <label className="flex flex-col max-w-[502px] w-[100%]">
+          <span
+            className={`${
+              validError.email || validError.notFound ? "text-red-500" : ""
+            }`}
+          >
+            Почта
+          </span>
+          <div className="relative mt-[10px] max-[600px]:mt-[4px]">
             <input
-              className="w-full px-4 py-4 bg-white dark:bg-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000] hover:border-gray-400 dark:hover:border-gray-500 shadow-sm"
+              className={`${
+                validError.email || validError.notFound
+                  ? "border-red-500 border-[2px]"
+                  : "border-gray-300 dark:border-gray-600"
+              } w-full px-4 py-4 max-[600px]:py-3 bg-white dark:bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000] shadow-sm`}
               type="email"
               placeholder="Введите свою почту"
               onChange={(e) => setField("email", e.target.value)}
@@ -47,7 +91,11 @@ export default function Login() {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
                 fill="none"
-                className="h-6 w-6 text-gray-400"
+                className={`h-6 w-6 ${
+                  validError.email || validError.notFound
+                    ? "text-red-500"
+                    : "text-gray-400"
+                } `}
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
@@ -59,12 +107,39 @@ export default function Login() {
               </svg>
             </span>
           </div>
+          {validError.email && (
+            <span className="flex text-red-500 text-sm font-[500] gap-[4px] items-center">
+              <svg
+                fill="none"
+                height="18"
+                viewBox="0 0 24 24"
+                width="18"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="m13 13h-2v-6h2zm0 4h-2v-2h2zm-1-15c-1.3132 0-2.61358.25866-3.82683.7612-1.21326.50255-2.31565 1.23915-3.24424 2.16773-1.87536 1.87537-2.92893 4.41891-2.92893 7.07107 0 2.6522 1.05357 5.1957 2.92893 7.0711.92859.9286 2.03098 1.6651 3.24424 2.1677 1.21325.5025 2.51363.7612 3.82683.7612 2.6522 0 5.1957-1.0536 7.0711-2.9289 1.8753-1.8754 2.9289-4.4189 2.9289-7.0711 0-1.3132-.2587-2.61358-.7612-3.82683-.5026-1.21326-1.2391-2.31565-2.1677-3.24424-.9286-.92858-2.031-1.66518-3.2443-2.16773-1.2132-.50254-2.5136-.7612-3.8268-.7612z"
+                  fill="red"
+                ></path>
+              </svg>
+              {validError.email}
+            </span>
+          )}
         </label>
-        <label className="flex flex-col max-w-[502px] w-[100%] gap-[10px]">
-          Пароль*
-          <div className="relative">
+        <label className="flex flex-col max-w-[502px] w-[100%]">
+          <span
+            className={`${
+              validError.password || validError.notFound ? "text-red-500" : ""
+            }`}
+          >
+            Пароль*
+          </span>
+          <div className="relative mt-[10px] max-[600px]:mt-[4px]">
             <input
-              className="w-full px-4 py-4 bg-white dark:bg-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000] hover:border-gray-400 dark:hover:border-gray-500 shadow-sm"
+              className={`${
+                validError.password || validError.notFound
+                  ? "border-red-500 border-[2px]"
+                  : "border-gray-300 dark:border-gray-600"
+              } w-full px-4 py-4 max-[600px]:py-3 bg-white dark:bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000] shadow-sm`}
               type={eyes ? "text" : "password"}
               placeholder="Введите свой пароль"
               onChange={(e) => setField("password", e.target.value)}
@@ -79,7 +154,11 @@ export default function Login() {
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                   fill="none"
-                  className="h-6 w-6 text-gray-400"
+                  className={`h-6 w-6 ${
+                    validError.password || validError.notFound
+                      ? "text-red-500"
+                      : "text-gray-400"
+                  } `}
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
@@ -107,7 +186,11 @@ export default function Login() {
                   viewBox="0 0 24 24"
                   strokeWidth={2}
                   stroke="currentColor"
-                  className="h-6 w-6 text-gray-400"
+                  className={`h-6 w-6 ${
+                    validError.password || validError.notFound
+                      ? "text-red-500"
+                      : "text-gray-400"
+                  } `}
                 >
                   <path
                     strokeLinecap="round"
@@ -123,11 +206,45 @@ export default function Login() {
               </span>
             )}
           </div>
+          {validError.password && (
+            <span className="flex text-red-500 text-sm font-[500] gap-[4px] items-center">
+              <svg
+                fill="none"
+                height="18"
+                viewBox="0 0 24 24"
+                width="18"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="m13 13h-2v-6h2zm0 4h-2v-2h2zm-1-15c-1.3132 0-2.61358.25866-3.82683.7612-1.21326.50255-2.31565 1.23915-3.24424 2.16773-1.87536 1.87537-2.92893 4.41891-2.92893 7.07107 0 2.6522 1.05357 5.1957 2.92893 7.0711.92859.9286 2.03098 1.6651 3.24424 2.1677 1.21325.5025 2.51363.7612 3.82683.7612 2.6522 0 5.1957-1.0536 7.0711-2.9289 1.8753-1.8754 2.9289-4.4189 2.9289-7.0711 0-1.3132-.2587-2.61358-.7612-3.82683-.5026-1.21326-1.2391-2.31565-2.1677-3.24424-.9286-.92858-2.031-1.66518-3.2443-2.16773-1.2132-.50254-2.5136-.7612-3.8268-.7612z"
+                  fill="red"
+                ></path>
+              </svg>
+              {validError.password}
+            </span>
+          )}
+          {validError.notFound && (
+            <span className="flex text-red-500 text-sm font-[500] gap-[4px] items-center">
+              <svg
+                fill="none"
+                height="18"
+                viewBox="0 0 24 24"
+                width="18"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="m13 13h-2v-6h2zm0 4h-2v-2h2zm-1-15c-1.3132 0-2.61358.25866-3.82683.7612-1.21326.50255-2.31565 1.23915-3.24424 2.16773-1.87536 1.87537-2.92893 4.41891-2.92893 7.07107 0 2.6522 1.05357 5.1957 2.92893 7.0711.92859.9286 2.03098 1.6651 3.24424 2.1677 1.21325.5025 2.51363.7612 3.82683.7612 2.6522 0 5.1957-1.0536 7.0711-2.9289 1.8753-1.8754 2.9289-4.4189 2.9289-7.0711 0-1.3132-.2587-2.61358-.7612-3.82683-.5026-1.21326-1.2391-2.31565-2.1677-3.24424-.9286-.92858-2.031-1.66518-3.2443-2.16773-1.2132-.50254-2.5136-.7612-3.8268-.7612z"
+                  fill="red"
+                ></path>
+              </svg>
+              {validError.notFound}
+            </span>
+          )}
         </label>
 
         <button
           onClick={handleLogin}
-          className="bg-[#1D53C5] hover:bg-[#2d6aea] transition-[.3s] my-[17px] text-white text-[23px] max-w-[502px] w-[100%] py-[16px] rounded-[12px]"
+          className="bg-[#1D53C5] max-[600px]:py-3 hover:bg-[#2d6aea] transition-[.3s] text-white text-[23px] max-[600px]:text-[20px] max-w-[502px] w-[100%] py-[16px] rounded-[12px]"
         >
           {isLoading ? (
             <span className="flex justify-center items-center gap-[10px]">
@@ -168,7 +285,7 @@ export default function Login() {
           )}
         </button>
         <div className="flex items-center justify-between mb-[3px]">
-          <p className="text-[20px] text-gray-600">
+          <p className="text-[20px] max-[600px]:text-[16px] text-gray-600">
             У вас нет аккаунта?{" "}
             <Link href="/register" className="underline text-[#1D53C5]">
               Зарегистрироваться

@@ -1,15 +1,17 @@
-import NavLink from "@/components/NavLink";
-import Section from "./Section";
-import Link from "next/link";
+import Header from "./Header";
+import Hero from "./Hero";
+import Info from "./Info";
+import Images from "./Images";
+import Footer from "./Footer";
 
 export default function Home() {
   return (
-    <div>
-      <div className="flex gap-[50px]">
-        <Link href="/login">Вход</Link>
-        <Link href="/register">Регистрация</Link>
-      </div>
-      <Section />
+    <div className="container">
+      <Header />
+      <Hero />
+      <Info />
+      <Images />
+      <Footer />
     </div>
   );
 }
