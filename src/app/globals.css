@@ -16,7 +16,6 @@
   inset: 0;
   max-width: 370px;
   overflow-y: scroll;
-  padding: 50px 40px;
   position: fixed;
   transition: 0.5s;
   z-index: 200;
@@ -36,21 +35,6 @@ th {
   text-align: start;
   color: #1d53c5;
   font-weight: 500;
-  font-size: 20px;
-}
-
-td {
-  padding-left: 37px;
-  width: 100%;
-}
-
-.space {
-  padding-top: 32px;
-}
-
-.table {
-  margin-top: -69px;
-  transform: translateY(0px);
 }
 
 input,

@@ -17,10 +17,11 @@ export default function Info() {
             key={num}
             className="bg-white p-4 rounded-lg shadow-[0px_4px_14.8px_#00000026]"
           >
-            <h3 className="text-xl font-semibold">
-              0{num}. <span>Текст</span>
+            <h3 className="md:text-3xl text-2xl font-semibold leading-10">
+              <span className="text-[#00000050]">0{num}.</span>
+              <br className="hidden md:block" /> Текст
             </h3>
-            <p className="text-gray-600">
+            <p className="text-gray-600 mt-[10px] md:text-[18px]">
               Модель подписки и размещение рекламы предоставляют потенциальные
               источники дохода на основе анализа рынка.
             </p>

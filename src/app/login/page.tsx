@@ -248,7 +248,6 @@ export default function Login() {
         >
           {isLoading ? (
             <span className="flex justify-center items-center gap-[10px]">
-              Вход
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 100 100"
@@ -279,6 +278,7 @@ export default function Login() {
                   <g></g>
                 </g>
               </svg>
+              Вход
             </span>
           ) : (
             "Войти"
