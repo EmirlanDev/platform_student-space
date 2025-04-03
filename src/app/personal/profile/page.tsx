@@ -5,6 +5,16 @@ import Link from "next/link";
 export default function Profile() {
   const { data, isLoading, error } = useGetProfileQuery();
 
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    };
+    return date.toLocaleDateString("ru-RU", options);
+  };
+
   return (
     <div>
       <h1 className="text-[24px] font-[500] mb-[56px] max-[1024px]:mb-[25px] max-[1024px]:text-end max-[700px]:text-[20px]">
@@ -21,15 +31,15 @@ export default function Profile() {
           />
         )}
         <div className="border-[1px] border-[#00000033] rounded-b-[10px] px-[32px] max-[700px]:px-[22px] pb-[85px] max-[700px]:pb-[30px]">
-          <table className="mt-[-69px] max-[800px]:mt-[-25px] translate-y-0 w-full">
+          <table className="mt-[-69px] max-[800px]:mt-[-45px] translate-y-0 w-full">
             <tbody>
               <tr className="max-[700px]:flex max-[700px]:flex-col max-[700px]:items-center">
                 <th className="max-[700px]:mb-[15px]">
                   {isLoading ? (
-                    <div className="min-w-[160px] max-w-[160px] max-[800px]:min-w-[130px] max-[800px]:max-w-[130px] h-[160px] max-[800px]:h-[130px] max-[500px]:min-w-[100px] max-[500px]:max-w-[100px] max-[500px]:h-[100px] rounded-full bg-[#cccccc]"></div>
+                    <div className="min-w-[160px] max-w-[160px] max-[800px]:min-w-[130px] max-[800px]:max-w-[130px] h-[160px] max-[800px]:h-[130px] rounded-full bg-[#cccccc]"></div>
                   ) : (
                     <img
-                      className="min-w-[160px] max-[800px]:min-w-[130px] h-[160px] max-[800px]:h-[130px] rounded-full max-[500px]:min-w-[100px] max-[500px]:h-[100px]"
+                      className="min-w-[160px] max-[800px]:min-w-[130px] h-[160px] max-[800px]:h-[130px] rounded-full"
                       src={data?.photoURL}
                       alt="User Profile"
                     />
@@ -117,7 +127,7 @@ export default function Profile() {
                     <div className="w-[30%] mb-[4px] h-[20px] rounded-[5px] bg-[#cccccc]"></div>
                   ) : (
                     <h2 className="max-[800px]:text-[16px]">
-                      {data?.dateOfBirthDay}
+                      {formatDate(data?.dateOfBirthDay as string)}
                     </h2>
                   )}
                 </td>

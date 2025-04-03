@@ -5,18 +5,10 @@
   background-color: #fff;
 }
 
-.nav-link {
-  width: 290px;
-  padding: 10px 40px;
-  border-radius: 5px;
-}
-
 .panel {
   background: #1d53c5;
-  inset: 0;
   max-width: 370px;
   overflow-y: scroll;
-  position: fixed;
   transition: 0.5s;
   z-index: 200;
 }

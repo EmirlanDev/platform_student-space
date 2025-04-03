@@ -17,7 +17,15 @@ const NavLink = ({
   const isActive = pathname === href;
 
   return (
-    <Link href={href} className={clsx("nav-link", { active: isActive })}>
+    <Link
+      href={href}
+      className={clsx(
+        "nav-link max-w-[290px] py-[10px] px-[40px] max-[800px]:px-[20px] max-[800px]:py-[5px] rounded-lg",
+        {
+          active: isActive,
+        }
+      )}
+    >
       {children}
     </Link>
   );

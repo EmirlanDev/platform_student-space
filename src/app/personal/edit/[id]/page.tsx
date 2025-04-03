@@ -114,12 +114,12 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
           />
         )}
         <div className="border-[1px] border-[#00000033] rounded-b-[10px] px-[32px] max-[700px]:px-[22px] pb-[85px] max-[700px]:pb-[30px]">
-          <table className="mt-[-69px] max-[800px]:mt-[-25px] translate-y-0 w-full">
+          <table className="mt-[-69px] max-[800px]:mt-[-45px] translate-y-0 w-full">
             <tbody>
               <tr className="max-[700px]:flex max-[700px]:flex-col max-[700px]:items-center">
                 <th className="max-[700px]:mb-[15px]">
                   {isUserLoading ? (
-                    <div className="min-w-[160px] max-w-[160px] max-[800px]:min-w-[130px] max-[800px]:max-w-[130px] h-[160px] max-[800px]:h-[130px] max-[500px]:min-w-[100px] max-[500px]:max-w-[100px] max-[500px]:h-[100px] rounded-full bg-[#cccccc]"></div>
+                    <div className="min-w-[160px] max-w-[160px] max-[800px]:min-w-[130px] max-[800px]:max-w-[130px] h-[160px] max-[800px]:h-[130px] rounded-full bg-[#cccccc]"></div>
                   ) : isUploadLoading ? (
                     <div className="min-w-[160px] h-[160px] rounded-full bg-[red] flex items-center justify-center">
                       <svg
@@ -156,7 +156,7 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
                   ) : (
                     <label>
                       <img
-                        className="min-w-[160px] max-[800px]:min-w-[130px] h-[160px] max-[800px]:h-[130px] rounded-full max-[500px]:min-w-[100px] max-[500px]:h-[100px]"
+                        className="min-w-[160px] max-[800px]:min-w-[130px] h-[160px] max-[800px]:h-[130px] rounded-full"
                         src={userData?.photoURL}
                         alt="User Profile"
                       />
@@ -297,7 +297,7 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
                 </th>
                 <td className="pl-[37px] max-[800px]:pl-[17px] max-[700px]:pl-0 max-[700px]:text-left w-[100%]">
                   <input
-                    className="border-[1px] border-[#ccc] rounded-[4px] px-[10px] py-[2px] w-[25%] max-[700px]:w-[40%]"
+                    className="border-[1px] border-[#ccc] rounded-[4px] px-[10px] py-[2px] w-[25%] max-[700px]:w-[55%]"
                     type="date"
                     onChange={handleInput}
                     value={values.dateOfBirthDay}

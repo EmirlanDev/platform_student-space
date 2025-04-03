@@ -1,9 +1,9 @@
-import Personal from "../layout";
-
 export default function News() {
   return (
-    <Personal>
-      <div className="py-[32px] px-[40px] ml-[370px]">NEWS</div>
-    </Personal>
+    <div>
+      <h1 className="text-[24px] font-[500] mb-[56px] max-[1024px]:mb-[25px] max-[1024px]:text-end max-[700px]:text-[20px]">
+        Новости
+      </h1>
+    </div>
   );
 }
