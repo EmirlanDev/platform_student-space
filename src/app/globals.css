@@ -5,14 +5,6 @@
   background-color: #fff;
 }
 
-.panel {
-  background: #1d53c5;
-  max-width: 370px;
-  overflow-y: scroll;
-  transition: 0.5s;
-  z-index: 200;
-}
-
 .panel::-webkit-scrollbar {
   background-color: #1d53c5;
   width: 8px;

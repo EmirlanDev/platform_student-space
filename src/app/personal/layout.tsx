@@ -1,8 +1,8 @@
 "use client";
 import NavLink from "@/components/NavLink";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Link from "next/link";
-import { useGetProfileQuery } from "@/redux/api/user/user";
+import { useCheckUserQuery, useGetProfileQuery } from "@/redux/api/user/user";
 import { useLogoutMutation } from "@/redux/api/auth/auth";
 import { useRouter } from "next/navigation";
 
@@ -15,6 +15,11 @@ export default function Personal({ children }: PersonalProps) {
   const router = useRouter();
   const [logout, { isLoading: isLogoutLoading, isError, isSuccess }] =
     useLogoutMutation();
+  const {
+    data: checkData,
+    isLoading: isCheckLoading,
+    error: isCheckError,
+  } = useCheckUserQuery();
   const [burger, setBurger] = useState<boolean>(false);
 
   const handleLogout = async () => {
@@ -25,6 +30,12 @@ export default function Personal({ children }: PersonalProps) {
       console.error("Ошибка выхода:", error);
     }
   };
+
+  useEffect(() => {
+    if (!checkData?.authenticated) {
+      router.push("/verification");
+    }
+  }, [isCheckLoading, isCheckError, checkData, router]);
 
   return (
     <div className="min-[1024px]:flex">
@@ -40,10 +51,10 @@ export default function Personal({ children }: PersonalProps) {
         onClick={() => setBurger(false)}
         className={`${
           burger ? "" : "hidden"
-        } absolute w-[100%] w-[100%] h-[100vh] bg-[#ffffff80] backdrop-blur-sm z-[10]`}
+        } fixed w-[100%] w-[100%] h-[100vh] bg-[#ffffff80] backdrop-blur-sm z-[10]`}
       ></div>
       <aside
-        className={`panel fixed overflow-y-scroll inset-[0] w-[40%] min-w-[300px] bg-[#1D53C5] py-[50px] max-[900px]:py-[20px] px-[40px] max-[900px]:px-[20px] z-[100] ${
+        className={`panel fixed overflow-y-scroll max-[800px]:overflow-hidden bg-[#1d53c5] max-w-[370px] transition-[.5s] inset-[0] w-[40%] min-w-[300px] bg-[#1D53C5] py-[50px] max-[900px]:py-[20px] px-[40px] max-[900px]:px-[20px] z-[200] max-[800px]:max-h-[60px] max-[800px]:rounded-r-[10px] ${
           burger
             ? "max-[1024px]:translate-x-[0]"
             : "max-[1024px]:translate-x-[-100%]"
@@ -78,9 +89,11 @@ export default function Personal({ children }: PersonalProps) {
                 <div className="w-[80%] h-[22px] rounded-[5px] bg-[#4b72c4] animate-pulse"></div>
               ) : (
                 <h3 className="text-[#fff] font-[400]">
-                  {data?.university
-                    ? "Студент " + data?.university
-                    : "Университет"}
+                  {data?.university ? (
+                    "Студент " + data?.university
+                  ) : (
+                    <span className="text-[#ffffff60]">не указана</span>
+                  )}
                 </h3>
               )}
             </div>
@@ -110,14 +123,20 @@ export default function Personal({ children }: PersonalProps) {
           </button>
         </div>
         <nav>
-          <ul className="flex flex-col gap-[40px] max-[800px]:gap-[15px] text-[20px] max-[800px]:text-[18px] font-[500] py-[57px] max-[800px]:py-[15px] text-white">
-            <NavLink href="/personal/news">Новости</NavLink>
-            <NavLink href="/personal/questions">Вопросы</NavLink>
-            <NavLink href="/personal/">Нетворкинг</NavLink>
-            <NavLink href="/personal/">Учебные комнаты</NavLink>
-            <NavLink href="/personal/">Мероприятия</NavLink>
-            <NavLink href="/personal/">Чаты</NavLink>
-            <NavLink href="/personal/ ">Работа</NavLink>
+          <ul className="flex flex-col gap-[40px] max-[800px]:gap-[18px] text-[20px] max-[800px]:text-[18px] font-[500] py-[57px] max-[800px]:py-[28px] text-white">
+            {[
+              { path: "personal/news", title: "Новости" },
+              { path: "personal/questions", title: "Вопросы" },
+              { path: "personal/networking", title: "Нетворкинг" },
+              { path: "personal/training", title: "Учебные комнаты" },
+              { path: "personal/event", title: "Мероприятия" },
+              { path: "personal/chat", title: "Чат" },
+              { path: "personal/job", title: "Работа" },
+            ].map((el, idx) => (
+              <NavLink href={el.path} key={idx}>
+                {el.title}
+              </NavLink>
+            ))}
           </ul>
         </nav>
       </aside>

@@ -3,7 +3,7 @@ import { useCheckUserQuery } from "@/redux/api/user/user";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function Мerification() {
+export default function Verification() {
   const { data, isLoading, isError } = useCheckUserQuery();
   const router = useRouter();
 
