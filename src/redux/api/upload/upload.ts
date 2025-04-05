@@ -9,7 +9,14 @@ const api = index.injectEndpoints({
         body: formData,
       }),
     }),
+    uploadBgImage: build.mutation<any, FormData>({
+      query: (formData) => ({
+        url: "/file/upload/background",
+        method: "POST",
+        body: formData,
+      }),
+    }),
   }),
 });
 
-export const { useUploadImageMutation } = api;
+export const { useUploadImageMutation, useUploadBgImageMutation } = api;

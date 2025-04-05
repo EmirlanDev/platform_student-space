@@ -3,7 +3,10 @@ import React, { use, useEffect, useState } from "react";
 import { useGetProfileQuery, useGetUserByIdQuery } from "@/redux/api/user/user";
 import { useEditUserMutation } from "@/redux/api/auth/auth";
 import { useRouter } from "next/navigation";
-import { useUploadImageMutation } from "@/redux/api/upload/upload";
+import {
+  useUploadBgImageMutation,
+  useUploadImageMutation,
+} from "@/redux/api/upload/upload";
 import { data } from "autoprefixer";
 
 export default function Edit({ params }: { params: Promise<{ id: string }> }) {
@@ -38,6 +41,9 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
   const [uploadImage, { isLoading: isUploadLoading }] =
     useUploadImageMutation();
 
+  const [uploadBgImage, { isLoading: isUploadBgLoading }] =
+    useUploadBgImageMutation();
+
   //? Get RTK query запрос
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,8 +61,26 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
         ...prevData,
         photoURL: response.url,
       }));
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
 
-      console.log(response);
+  const handleBgFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setImage(file);
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await uploadBgImage(formData).unwrap();
+      setValues((prevData) => ({
+        ...prevData,
+        bgImage: response.url,
+      }));
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -114,12 +138,81 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
               <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"></path>
             </svg>
           </div>
+        ) : isUploadBgLoading ? (
+          <div className="relative flex items-center justify-center w-[100%] h-[180px] max-[500px]:h-[120px] rounded-t-[10px]">
+            <img
+              src={values.bgImage || userData?.bgImage}
+              alt="background"
+              className="w-full h-[180px] object-cover rounded-t-[10px]"
+            />
+            <svg
+              className="absolute"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="xMidYMid"
+              width="100"
+              height="100"
+              xmlnsXlink="http://www.w3.org/1999/xlink"
+            >
+              <g>
+                <circle
+                  strokeDasharray="164.93361431346415 56.97787143782138"
+                  r="35"
+                  strokeWidth="5"
+                  stroke="#1d53c580"
+                  fill="none"
+                  cy="50"
+                  cx="50"
+                >
+                  <animateTransform
+                    keyTimes="0;1"
+                    values="0 50 50;360 50 50"
+                    dur="1s"
+                    repeatCount="indefinite"
+                    type="rotate"
+                    attributeName="transform"
+                  ></animateTransform>
+                </circle>
+                <g></g>
+              </g>
+            </svg>
+          </div>
         ) : (
-          <img
-            className="w-[100%] h-[180px] max-[500px]:h-[120px] object-cover rounded-t-[10px]"
-            src={userData?.bgImage}
-            alt="background"
-          />
+          <div className="relative">
+            <img
+              src={values.bgImage || userData?.bgImage}
+              alt="background"
+              className="w-full h-[180px] object-cover rounded-t-[10px]"
+            />
+
+            <label className="absolute md:bottom-4 max-[767]:top-4 right-4 z-2 pointer-events-auto flex items-center gap-2 cursor-pointer bg-[#1d53c590] hover:bg-[#1d53c5] text-white text-sm font-semibold px-4 py-1.5 rounded-full transition">
+              <input
+                onChange={handleBgFileChange}
+                type="file"
+                className="hidden"
+              />
+              <svg
+                className="w-5 h-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 18V8a1 1 0 011-1h1.5l1.707-1.707A1 1 0 018.914 5h6.172a1 1 0 01.707.293L17.5 7H19a1 1 0 011 1v10a1 1 0 01-1 1H5a1 1 0 01-1-1Z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0Z"
+                />
+              </svg>
+              Изменить
+            </label>
+          </div>
         )}
         <div className="border-[1px] border-[#00000033] rounded-b-[10px] px-[32px] max-[700px]:px-[22px] pb-[85px] max-[700px]:pb-[30px]">
           <table className="mt-[-69px] max-[800px]:mt-[-45px] translate-y-0 w-full">
@@ -139,42 +232,49 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
                       </svg>
                     </div>
                   ) : isUploadLoading ? (
-                    <div className="flex items-center justify-center min-w-[160px] max-w-[160px] max-[800px]:min-w-[130px] max-[800px]:max-w-[130px] h-[160px] max-[800px]:h-[130px] rounded-full bg-[#cccccc]">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 100 100"
-                        preserveAspectRatio="xMidYMid"
-                        width="100"
-                        height="100"
-                        xmlnsXlink="http://www.w3.org/1999/xlink"
-                      >
-                        <g>
-                          <circle
-                            strokeDasharray="164.93361431346415 56.97787143782138"
-                            r="35"
-                            strokeWidth="5"
-                            stroke="#1d53c580"
-                            fill="none"
-                            cy="50"
-                            cx="50"
-                          >
-                            <animateTransform
-                              keyTimes="0;1"
-                              values="0 50 50;360 50 50"
-                              dur="1s"
-                              repeatCount="indefinite"
-                              type="rotate"
-                              attributeName="transform"
-                            ></animateTransform>
-                          </circle>
-                          <g></g>
-                        </g>
-                      </svg>
+                    <div className="relative flex items-center justify-center min-w-[160px] max-w-[160px] max-[800px]:min-w-[130px] max-[800px]:max-w-[130px] h-[160px] max-[800px]:h-[130px] rounded-full">
+                      <img
+                        className="w-[160px] min-w-[160px] h-[160px] max-[800px]:w-[130px] max-[800px]:min-w-[130px] max-[800px]:h-[130px] rounded-full object-cover"
+                        src={values.photoURL || userData?.photoURL}
+                        alt="User Profile"
+                      />
+                      <div className="absolute top-0 left-0 w-[160px] h-[160px] max-[800px]:w-[130px] max-[800px]:h-[130px] flex items-center justify-center rounded-full bg-[#00000060]">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 100 100"
+                          preserveAspectRatio="xMidYMid"
+                          width="100"
+                          height="100"
+                          xmlnsXlink="http://www.w3.org/1999/xlink"
+                        >
+                          <g>
+                            <circle
+                              strokeDasharray="164.93361431346415 56.97787143782138"
+                              r="35"
+                              strokeWidth="5"
+                              stroke="#1d53c580"
+                              fill="none"
+                              cy="50"
+                              cx="50"
+                            >
+                              <animateTransform
+                                keyTimes="0;1"
+                                values="0 50 50;360 50 50"
+                                dur="1s"
+                                repeatCount="indefinite"
+                                type="rotate"
+                                attributeName="transform"
+                              ></animateTransform>
+                            </circle>
+                            <g></g>
+                          </g>
+                        </svg>
+                      </div>
                     </div>
                   ) : (
                     <label className="relative block w-fit mx-auto">
                       <img
-                        className="w-[160px] h-[160px] max-[800px]:w-[130px] max-[800px]:h-[130px] rounded-full object-cover"
+                        className="w-[160px] min-w-[160px] h-[160px] max-[800px]:w-[130px] max-[800px]:min-w-[130px] max-[800px]:h-[130px] rounded-full object-cover"
                         src={values.photoURL || userData?.photoURL}
                         alt="User Profile"
                       />

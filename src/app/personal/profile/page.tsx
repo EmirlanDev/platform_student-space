@@ -36,7 +36,7 @@ export default function Profile() {
           </div>
         ) : (
           <img
-            className="w-[100%] h-[180px] max-[500px]:h-[120px] object-cover rounded-t-[10px]"
+            className="w-[100%] h-[180px] object-cover rounded-t-[10px]"
             src={data?.bgImage}
             alt="background"
           />

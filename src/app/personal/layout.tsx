@@ -62,6 +62,7 @@ export default function Personal({ children }: PersonalProps) {
       >
         <div className="px-[15px] pt-[32px] max-[790px]:pt-[10px] pb-[20px] border-b-[1px] border-white">
           <Link
+            onClick={() => setBurger(false)}
             className="flex items-center gap-[25px] max-[900px]:gap-[15px] max-[790px]:flex-col"
             href="/personal/profile"
           >
@@ -135,15 +136,19 @@ export default function Personal({ children }: PersonalProps) {
         <nav>
           <ul className="flex flex-col gap-[40px] max-[800px]:gap-[18px] text-[20px] max-[800px]:text-[18px] font-[500] py-[57px] max-[800px]:py-[28px] text-white">
             {[
-              { path: "personal/news", title: "Новости" },
-              { path: "personal/questions", title: "Вопросы" },
-              { path: "personal/networking", title: "Нетворкинг" },
-              { path: "personal/training", title: "Учебные комнаты" },
-              { path: "personal/event", title: "Мероприятия" },
-              { path: "personal/chat", title: "Чат" },
-              { path: "personal/job", title: "Работа" },
+              { path: "/personal/news", title: "Новости" },
+              { path: "/personal/questions", title: "Вопросы" },
+              { path: "/personal/networking", title: "Нетворкинг" },
+              { path: "/personal/training", title: "Учебные комнаты" },
+              { path: "/personal/event", title: "Мероприятия" },
+              { path: "/personal/chat", title: "Чат" },
+              { path: "/personal/job", title: "Работа" },
             ].map((el, idx) => (
-              <NavLink href={el.path} key={idx}>
+              <NavLink
+                onClick={() => setBurger(false)}
+                href={el.path}
+                key={idx}
+              >
                 {el.title}
               </NavLink>
             ))}
