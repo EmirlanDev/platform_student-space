@@ -183,7 +183,7 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
                         type="file"
                         onChange={handleFileChange}
                       />
-                      <span className="flex items-center justify-center absolute top-0 min-w-[160px] max-w-[160px] max-[800px]:min-w-[130px] max-[800px]:max-w-[130px] h-[160px] max-[800px]:h-[130px] rounded-full bg-[#00000060]">
+                      <div className="flex items-center justify-center absolute top-0 min-w-[160px] max-w-[160px] max-[800px]:min-w-[130px] max-[800px]:max-w-[130px] h-[160px] max-[800px]:h-[130px] rounded-full bg-[#00000060]">
                         <svg
                           className="w-10 h-10 text-gray-800 dark:text-white"
                           aria-hidden="true"
@@ -199,7 +199,7 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
                             clipRule="evenodd"
                           />
                         </svg>
-                      </span>
+                      </div>
                     </label>
                   )}
                 </th>
