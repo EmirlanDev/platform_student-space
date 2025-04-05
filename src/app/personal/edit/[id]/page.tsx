@@ -172,9 +172,9 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
                       </svg>
                     </div>
                   ) : (
-                    <label className="relative">
+                    <label className="relative block w-fit mx-auto">
                       <img
-                        className="min-w-[160px] max-w-[160px] max-[800px]:min-w-[130px] max-[800px]:max-w-[130px] h-[160px] max-[800px]:h-[130px] rounded-full object-cover"
+                        className="w-[160px] h-[160px] max-[800px]:w-[130px] max-[800px]:h-[130px] rounded-full object-cover"
                         src={values.photoURL || userData?.photoURL}
                         alt="User Profile"
                       />
@@ -183,13 +183,11 @@ export default function Edit({ params }: { params: Promise<{ id: string }> }) {
                         type="file"
                         onChange={handleFileChange}
                       />
-                      <div className="flex items-center justify-center absolute top-0 min-w-[160px] max-w-[160px] max-[800px]:min-w-[130px] max-[800px]:max-w-[130px] h-[160px] max-[800px]:h-[130px] rounded-full bg-[#00000060]">
+                      <div className="absolute top-0 left-0 w-[160px] h-[160px] max-[800px]:w-[130px] max-[800px]:h-[130px] flex items-center justify-center rounded-full bg-[#00000060]">
                         <svg
                           className="w-10 h-10 text-gray-800 dark:text-white"
                           aria-hidden="true"
                           xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
                           fill="currentColor"
                           viewBox="0 0 24 24"
                         >
