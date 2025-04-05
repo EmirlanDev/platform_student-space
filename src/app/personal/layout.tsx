@@ -54,7 +54,7 @@ export default function Personal({ children }: PersonalProps) {
         } fixed w-[100%] w-[100%] h-[100vh] bg-[#ffffff80] backdrop-blur-sm z-[10]`}
       ></div>
       <aside
-        className={`panel fixed overflow-y-scroll max-[800px]:overflow-hidden bg-[#1d53c5] max-w-[370px] transition-[.5s] inset-[0] w-[40%] min-w-[300px] bg-[#1D53C5] py-[50px] max-[900px]:py-[20px] px-[40px] max-[900px]:px-[20px] z-[200] max-[800px]:max-h-[60px] max-[800px]:rounded-r-[10px] ${
+        className={`panel fixed overflow-y-scroll max-[800px]:overflow-hidden bg-[#1d53c5] max-w-[370px] transition-[.5s] inset-[0] w-[40%] min-w-[300px] bg-[#1D53C5] py-[50px] max-[900px]:py-[20px] px-[40px] max-[900px]:px-[20px] z-[200] max-[800px]:max-h-[700px] max-[800px]:rounded-r-[10px] ${
           burger
             ? "max-[1024px]:translate-x-[0]"
             : "max-[1024px]:translate-x-[-100%]"
@@ -66,10 +66,20 @@ export default function Personal({ children }: PersonalProps) {
             href="/personal/profile"
           >
             {isLoading ? (
-              <div className="w-[84px] max-[900px]:w-[64px] h-[84px] max-[900px]:h-[64px] rounded-full bg-[#4b72c4] animate-pulse"></div>
+              <div className="w-[84px] max-[900px]:w-[64px] h-[84px] max-[900px]:h-[64px] rounded-full bg-[#4b72c4]">
+                <svg
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  className="animate-pulse w-[84px] max-[900px]:w-[64px] h-[84px] max-[900px]:h-[64px] me-3 text-gray-200 dark:text-gray-400"
+                >
+                  <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"></path>
+                </svg>
+              </div>
             ) : (
               <img
-                className="w-[84px] max-[900px]:w-[64px] h-[84px] max-[900px]:h-[64px] rounded-full"
+                className="w-[84px] max-[900px]:w-[64px] h-[84px] max-[900px]:h-[64px] rounded-full object-cover"
                 src={data?.photoURL}
                 alt="User Profile"
               />
@@ -103,7 +113,7 @@ export default function Personal({ children }: PersonalProps) {
             disabled={isLoading}
             className="text-start flex items-center justify-between hover:bg-[#ffffff40] border-[#ffffff40] border-[2px] py-[10px] max-[900px]:py-[5px] px-[25px] max-[900px]:px-[15px] text-[20px] max-[800px]:text-[16px] font-[500] text-white w-[100%] mt-[20px] rounded-lg"
           >
-            {isLoading ? "Выход..." : "Выйти"}
+            {isLogoutLoading ? "Выход..." : "Выйти"}
             <svg
               className="w-6 h-6 text-gray-800 dark:text-white"
               xmlns="http://www.w3.org/2000/svg"
