@@ -13,6 +13,20 @@ export default function Register() {
   const [eyes, setEyes] = useState<boolean>(false);
   const [validError, setValidError] = useState<any>({});
   const [agreement, setAgreement] = useState<boolean>(false);
+  const [adminPasswordField, setAdminPasswordField] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.shiftKey && event.key === "Z") {
+        event.preventDefault();
+        setAdminPasswordField(!adminPasswordField);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const validateForm = () => {
     const errors: any = {};
@@ -226,6 +240,20 @@ export default function Register() {
             </span>
           )}
         </label>
+        {/* Другие поля формы */}
+        {adminPasswordField && (
+          <label className="max-w-[502px] w-[100%]">
+            Админский пароль
+            <input
+              className="w-full mt-[10px] max-[600px]:mt-[4px] px-4 py-4 max-[600px]:py-3 bg-white dark:bg-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500 text-[#000] dark:text-[#000] hover:border-gray-400 dark:hover:border-gray-500 shadow-sm"
+              type="text"
+              placeholder="Введите пароль"
+              onChange={(e) => setField("adminCode", e.target.value)}
+              value={form.adminCode}
+            />
+          </label>
+        )}
+        {/* Другие элементы формы */}
         <label
           onClick={() => setAgreement(!agreement)}
           className={`${

@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://platform-back-qgul.onrender.com/api/:path*"
+      "destination": "https://platform-back-student-space.onrender.com/api/:path*"
     }
   ]
 }

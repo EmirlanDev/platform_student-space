@@ -6,6 +6,7 @@ type FormRegisterStore = {
     lastName: string;
     email: string;
     password: string;
+    adminCode: string;
   };
   setField: (field: keyof FormRegisterStore["form"], value: string) => void;
   resetForm: () => void;
@@ -17,11 +18,14 @@ const useFormRegister = create<FormRegisterStore>((set) => ({
     lastName: "",
     email: "",
     password: "",
+    adminCode: "",
   },
   setField: (field, value) =>
     set((state) => ({ form: { ...state.form, [field]: value } })),
   resetForm: () =>
-    set({ form: { name: "", lastName: "", email: "", password: "" } }),
+    set({
+      form: { name: "", lastName: "", email: "", password: "", adminCode: "" },
+    }),
 }));
 
 type FormLoginStore = {
