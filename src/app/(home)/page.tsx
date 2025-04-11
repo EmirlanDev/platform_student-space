@@ -1,12 +1,12 @@
-import Header from "./Header";
-import Hero from "./Hero";
-import Info from "./Info";
-import Images from "./Images";
-import Footer from "./Footer";
+import Header from "./components/Header";
+import Hero from "./components/Hero";
+import Info from "./components/Info";
+import Images from "./components/Images";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
-    <div className="container">
+    <div>
       <Header />
       <Hero />
       <Info />

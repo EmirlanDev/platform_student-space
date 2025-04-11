@@ -23,7 +23,7 @@ const NavLink = ({
       onClick={onClick}
       href={href}
       className={clsx(
-        "nav-link max-w-[290px] py-[10px] px-[40px] max-[800px]:px-[20px] max-[800px]:py-[5px] rounded-lg",
+        "hover:bg-[#ffffff40] mt-[40px] max-[800px]:mt-[18px] nav-link max-w-[290px] py-[10px] px-[40px] max-[800px]:px-[20px] max-[800px]:py-[5px] rounded-lg",
         {
           active: isActive,
         }

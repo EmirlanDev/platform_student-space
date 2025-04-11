@@ -12,6 +12,7 @@ namespace USER {
     dateOfBirthDay: string;
     descr: string;
     bgImage: string;
+    isAdmin: string;
     createAt: string;
     updateAt: string;
   };

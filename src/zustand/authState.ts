@@ -1,5 +1,8 @@
 import { create } from "zustand";
 
+//! REGISTER
+
+//? FORM REGISTER STATE
 type FormRegisterStore = {
   form: {
     name: string;
@@ -28,6 +31,37 @@ const useFormRegister = create<FormRegisterStore>((set) => ({
     }),
 }));
 
+//? VALID REGISTER STATE
+
+type ValidRegisterErrors = {
+  name?: string;
+  email?: string;
+  password?: string;
+  agreement?: string;
+};
+
+type ValidRegisterState = {
+  errors: ValidRegisterErrors;
+  setErrors: (errors: ValidRegisterErrors) => void;
+  clearError: (field: keyof ValidRegisterErrors) => void;
+  resetErrors: () => void;
+};
+
+const useValidRegisterState = create<ValidRegisterState>((set) => ({
+  errors: {},
+  setErrors: (errors) => set({ errors }),
+  clearError: (field) =>
+    set((state) => {
+      const updated = { ...state.errors };
+      delete updated[field];
+      return { errors: updated };
+    }),
+  resetErrors: () => set({ errors: {} }),
+}));
+
+//! LOGIN
+
+//? FORM LOGIN STATE
 type FormLoginStore = {
   form: {
     email: string;
@@ -47,4 +81,35 @@ const useFormLogin = create<FormLoginStore>((set) => ({
   resetForm: () => set({ form: { email: "", password: "" } }),
 }));
 
-export { useFormRegister, useFormLogin };
+//? VALID LOGIN STATE
+type ValidLoginErrors = {
+  email?: string;
+  password?: string;
+  notFound?: string;
+};
+
+type ValidLoginState = {
+  errors: ValidLoginErrors;
+  setErrors: (errors: ValidLoginErrors) => void;
+  clearError: (field: keyof ValidLoginErrors) => void;
+  resetErrors: () => void;
+};
+
+const useValidLoginState = create<ValidLoginState>((set) => ({
+  errors: {},
+  setErrors: (errors) => set({ errors }),
+  clearError: (field) =>
+    set((state) => {
+      const updated = { ...state.errors };
+      delete updated[field];
+      return { errors: updated };
+    }),
+  resetErrors: () => set({ errors: {} }),
+}));
+
+export {
+  useFormRegister,
+  useFormLogin,
+  useValidLoginState,
+  useValidRegisterState,
+};
