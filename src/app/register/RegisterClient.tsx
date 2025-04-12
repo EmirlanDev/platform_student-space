@@ -85,7 +85,7 @@ export default function RegisterClient() {
       resetForm();
       resetErrors();
       refetch();
-      router.push("/personal/profile");
+      router.push("/personal");
     } catch (err: any) {
       const errors: any = {};
       errors.email = err.data.message;

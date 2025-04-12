@@ -6,7 +6,7 @@ export default function Header() {
       <div className="container">
         <div className="mx-auto flex justify-between items-center">
           <h1 className="text-[20px] max-w-[77px] leading-6 font-bold">
-            Student Space
+            Study Nest
           </h1>
           <div className="flex items-center gap-[20px]">
             <nav className="hidden md:flex space-x-6">

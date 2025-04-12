@@ -1,23 +1,29 @@
 "use client";
 
+import { useEffect } from "react";
 import { Minus, Plus, X } from "lucide-react";
-import { useAddNewsMutation, useGetAllNewsQuery } from "@/redux/api/news/news";
+import {
+  useAddNewsMutation,
+  useEditNewsMutation,
+  useGetAllNewsQuery,
+} from "@/redux/api/news/news";
 import { useNewsModal } from "@/zustand/allState";
 import { useFormNews, useNewsDescr } from "@/zustand/newsState";
 import { useUploadNewsImageMutation } from "@/redux/api/upload/upload";
 
 export default function AddNewsModal() {
-  const { close } = useNewsModal();
   //? RTK query
   const [addNews, { isLoading }] = useAddNewsMutation();
   const [uploadNewsImage, { isLoading: imageLoading }] =
     useUploadNewsImageMutation();
   const { refetch } = useGetAllNewsQuery();
+  const [editNews, { isLoading: isEditLoading }] = useEditNewsMutation();
 
   //? ZUSTAND
   const { form, setField, addDescription, removeDescription, resetForm } =
     useFormNews();
   const { description, setDescr, resetDescr } = useNewsDescr();
+  const { close, selectedNews } = useNewsModal();
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -41,6 +47,15 @@ export default function AddNewsModal() {
     resetDescr();
   };
 
+  useEffect(() => {
+    if (selectedNews) {
+      setField("title", selectedNews.title);
+      setField("image", selectedNews.image);
+      // selectedNews.descriptions.forEach((desc: string) => addDescription(desc));
+      setField("descriptions", selectedNews.descriptions);
+    }
+  }, [selectedNews]);
+
   const addNewsForm = async () => {
     try {
       await addNews(form);
@@ -52,24 +67,45 @@ export default function AddNewsModal() {
     }
   };
 
+  console.log(selectedNews);
+  console.log(form);
+
+  const editNewsForm = async () => {
+    try {
+      const id = selectedNews?.id as string;
+      await editNews({ id, form }).unwrap();
+      resetForm();
+      refetch();
+      close();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div
-      onClick={close}
+      onClick={() => {
+        close();
+        resetForm();
+      }}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-lg bg-white rounded-2xl shadow-xl p-6 h-[450px] overflow-y-auto"
+        className="relative w-full max-w-lg bg-white rounded-2xl shadow-xl p-6 h-[450px] overflow-y-auto min-[1024px]:ml-[300px]"
       >
         <button
-          onClick={close}
+          onClick={() => {
+            close();
+            resetForm();
+          }}
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition"
         >
           <X className="w-6 h-6" />
         </button>
 
         <h2 className="text-2xl font-semibold mb-6 text-center">
-          Добавить новость
+          {selectedNews ? "Изменить новость" : "Добавить новость"}
         </h2>
 
         <form className="space-y-4">
@@ -144,11 +180,11 @@ export default function AddNewsModal() {
 
           <div>
             {form.descriptions.map((item, idx) => (
-              <h1 className="flex justify-between" key={idx}>
+              <h1 className="flex justify-between my-2" key={idx}>
                 {item}
                 <Minus
                   onClick={() => removeDescription(idx)}
-                  className="hover:bg-[#1d53c5] hover:text-white rounded-sm"
+                  className="hover:bg-[#1d53c5] hover:text-white rounded-sm min-w-[24px]"
                 />
               </h1>
             ))}
@@ -171,14 +207,25 @@ export default function AddNewsModal() {
             />
           </div>
 
-          <button
-            onClick={addNewsForm}
-            type="submit"
-            disabled={isLoading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
-          >
-            {isLoading ? "Сохраняем..." : "Сохранить"}
-          </button>
+          {selectedNews ? (
+            <button
+              onClick={editNewsForm}
+              type="submit"
+              disabled={isEditLoading}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+            >
+              {isEditLoading ? "Сохранение..." : "Сохранить"}
+            </button>
+          ) : (
+            <button
+              onClick={addNewsForm}
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+            >
+              {isLoading ? "Сохраняем..." : "Сохранить"}
+            </button>
+          )}
         </form>
       </div>
     </div>

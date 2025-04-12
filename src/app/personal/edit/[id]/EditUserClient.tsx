@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useGetProfileQuery, useGetUserByIdQuery } from "@/redux/api/user/user";
 import { useEditUserMutation } from "@/redux/api/auth/auth";
 import { useRouter } from "next/navigation";

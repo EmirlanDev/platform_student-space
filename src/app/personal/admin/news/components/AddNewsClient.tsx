@@ -18,7 +18,7 @@ export default function AddNewsClient() {
   const { data, isLoading, refetch } = useGetAllNewsQuery();
 
   //? Zustand
-  const { open, isOpen } = useNewsModal();
+  const { open, isOpen, setSelectedNews } = useNewsModal();
 
   const handleDeleteNews = async (id: string) => {
     try {
@@ -42,7 +42,7 @@ export default function AddNewsClient() {
           onClick={open}
           className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
         >
-          Добавить статью
+          Добавить новость
         </button>
       </div>
 
@@ -143,7 +143,13 @@ export default function AddNewsClient() {
                       ...
                     </td>
                     <td className="py-2 sm:py-4 sm:px-4 text-sm text-blue-600 flex items-center gap-3 max-[640px]:justify-end">
-                      <PencilIcon className="w-4 h-4 text-gray-500 cursor-pointer hover:text-green-700" />
+                      <PencilIcon
+                        onClick={() => {
+                          setSelectedNews(article);
+                          open();
+                        }}
+                        className="w-4 h-4 text-gray-500 cursor-pointer hover:text-green-700"
+                      />
                       <ExternalLink
                         onClick={() =>
                           router.push(`/personal/news/${article.id}`)

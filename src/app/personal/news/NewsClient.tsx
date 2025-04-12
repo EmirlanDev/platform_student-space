@@ -59,7 +59,7 @@ export default function NewsClient() {
 
                 <div className="flex flex-col justify-between flex-grow p-4 md:p-0">
                   <div>
-                    <h2 className="text-[24px] font-semibold mb-2">
+                    <h2 className="text-[24px] font-semibold mb-2 leading-6">
                       {article.title}
                     </h2>
                     <p className="text-[12px] text-gray-500 mb-2">

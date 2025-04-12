@@ -15,6 +15,22 @@ const api = index.injectEndpoints({
         method: "GET",
       }),
     }),
+    getNewsById: build.query<NEWS.getNewsByIdRes, NEWS.getNewsByIdReq>({
+      query: (id) => ({
+        url: `/news/${id}`,
+        method: "GET",
+      }),
+    }),
+    editNews: build.mutation<
+      NEWS.editNewsRes,
+      { id: string; form: NEWS.editNewsReq }
+    >({
+      query: ({ id, form }) => ({
+        url: `/news/${id}`,
+        method: "PATCH",
+        body: form,
+      }),
+    }),
     deleteNews: build.mutation<NEWS.delNewsRes, NEWS.delNewsReq>({
       query: (id) => ({
         url: "/news/delete",
@@ -25,5 +41,10 @@ const api = index.injectEndpoints({
   }),
 });
 
-export const { useAddNewsMutation, useGetAllNewsQuery, useDeleteNewsMutation } =
-  api;
+export const {
+  useAddNewsMutation,
+  useGetAllNewsQuery,
+  useGetNewsByIdQuery,
+  useEditNewsMutation,
+  useDeleteNewsMutation,
+} = api;

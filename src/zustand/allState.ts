@@ -1,16 +1,30 @@
 import { create } from "zustand";
 
 //? NEWS MODAL STATE
+
+type NewsType = {
+  id: string;
+  title: string;
+  image: string;
+  descriptions: string[];
+  createdAt: string;
+  updateAt: string;
+};
+
 type NewsModalState = {
   isOpen: boolean;
   open: () => void;
   close: () => void;
+  selectedNews: NewsType | null;
+  setSelectedNews: (news: NewsType | null) => void;
 };
 
 export const useNewsModal = create<NewsModalState>((set) => ({
   isOpen: false,
+  selectedNews: null,
   open: () => set({ isOpen: true }),
-  close: () => set({ isOpen: false }),
+  close: () => set({ isOpen: false, selectedNews: null }),
+  setSelectedNews: (news) => set({ selectedNews: news }),
 }));
 
 //? BURGER MENU STATE
